@@ -1,13 +1,13 @@
 # Neo-Zip
 
-``Neo-Zip`` provides an easier-to-use syntax for traversing Neo4J graphs using the syntax of ``Graph-Zip``.
+Neo-Zip provides an easier-to-use syntax for traversing Neo4J graphs using the syntax of Graph-Zip.
 
 It is built atop [Graph-Zip](https://github.com/james-henderson/graph-zip) and [Borneo](https://github.com/wagjo/borneo) (a Clojure Neo4J wrapper).
 
 ## Usage
 
-There is only one function in ``Neo-Zip`` - ```get-zipper```, which is
-used to get a zipper that is compatible with ``Graph-Zip``.
+There is only one function in Neo-Zip - ```get-zipper```, which is
+used to get a zipper that is compatible with Graph-Zip.
 
 It must be used inside a ```with-db!``` or ```with-local-db!``` block:
 
@@ -22,10 +22,11 @@ It must be used inside a ```with-db!``` or ```with-local-db!``` block:
                                  
 ### An example graph:
 
-For these examples, we use the Matrix social graph as per the ``Neo4J``
+For these examples, we use the Matrix social graph as per the Neo4J
 documentation. To set this up, run the following Clojure expression
 (changing the database path if required):
 
+    ;; Code from Borneo project home-page.
     (neo/with-local-db! "db/testNeo"
      (neo/purge!)
       (let [humans (neo/create-child! :humans nil)
@@ -67,7 +68,7 @@ documentation. To set this up, run the following Clojure expression
             (neo/create-rel! smith :knows architect)
             (neo/create-rel! trinity :loves the-one)))
 
-Notice that mutations to the graph are made using the ``Borneo``
+Notice that mutations to the graph are made using the Borneo
 library - Neo-Zip is a read-only syntax.
 
 We can then query the graph using Neo-Zip's graph-zip syntax:
