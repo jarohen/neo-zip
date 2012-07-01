@@ -1,5 +1,7 @@
 # Neo-Zip
 
+    [neo-zip "0.1"]
+
 Neo-Zip provides an easier-to-use syntax for traversing Neo4J graphs using the syntax of Graph-Zip.
 
 It is built atop [Graph-Zip](https://github.com/james-henderson/graph-zip) and [Borneo](https://github.com/wagjo/borneo) (a Clojure Neo4J wrapper).
