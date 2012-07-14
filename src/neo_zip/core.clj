@@ -17,7 +17,6 @@
 (defn- node-props-map [node]
   (merge-with concat (all-node-props node) (all-node-rels node)))
 
-
 (defn- node-prop [node prop]
   (if (neo/prop? node prop)
     (vector (neo/prop node prop))))
@@ -38,23 +37,26 @@
     (if (instance? Node node)
       (node-prop-values node prop direction))))
 
-(defn get-zipper
-  ([] (get-zipper (neo/root)))
+(defn neo-zip
+  ([] (neo-zip (neo/root)))
   ([^Node node]
-     (g/graph-zipper (NeoGraph.) node)))
+     (g/graph-zip (NeoGraph.) node)))
 
 (neo/with-local-db! "db/testNeo"
-  (map #(g/prop1 % :name) (g/zip-> (get-zipper)
-                                   :humans
-                                   :human
-                                   (g/prop= :name "Trinity")
-                                   (g/incoming :knows))))
+  (g/zip-> (neo-zip)
+           :humans
+           :human
+           (g/prop= :name "Trinity")
+           (g/incoming :knows)
+           :name
+           g/node))
 
 (neo/with-local-db! "db/testNeo"
-  (for [human (g/zip-> (get-zipper)
-                       :humans
-                       :human)]
-    (g/prop1 human :name)))
+  (g/zip-> (neo-zip)
+           :humans
+           :human
+           :name
+           g/node))
 
 (comment (neo/with-local-db! "db/testNeo"
            (neo/purge!)

@@ -6,22 +6,22 @@ It is built atop [Graph-Zip](https://github.com/james-henderson/graph-zip) and [
 
 ## Lein dependency:
 
-    [neo-zip "0.1"]
+    [neo-zip "0.2"]
 
 ## Usage
 
-There is only one function in Neo-Zip - ```get-zipper```, which is
+There is only one function in Neo-Zip - ```neo-zip```, which is
 used to get a zipper that is compatible with Graph-Zip.
 
 It must be used inside a ```with-db!``` or ```with-local-db!``` block:
 
-    (use 'neo-zip.core :only [get-zipper])
+    (use 'neo-zip.core :only [neo-zip])
     (require '[borneo.core :as neo]
              '[graph-zip.core :as g])
     
 
     (neo/with-local-db! "db/testNeo"
-                        (g/zip-> (get-zipper)
+                        (g/zip-> (neo-zip)
                                  ... ))
                                  
 ### An example graph:
@@ -78,22 +78,25 @@ library - Neo-Zip is a read-only syntax.
 We can then query the graph using Neo-Zip's graph-zip syntax:
 
     (neo/with-local-db! "db/testNeo"
-     (for [human (g/zip-> (get-zipper)
-                          :humans
-                          :human)]
-       (g/prop1 human :name)))
+     (g/zip-> (neo-zip)
+              :humans
+              :human
+              :name
+              g/node))
 
     ;; -> ("Cypher" "Morpheus" "Trinity" "Thomas Anderson")
     
 We can also use the 'incoming' function of graph-zip to find out the
-name of everyone that knows 'trinity'
+name of everyone that knows Trinity :-
 
     (neo/with-local-db! "db/testNeo"
-     (map #(g/prop1 % :name) (g/zip-> (get-zipper)
-                                      :humans
-                                      :human
-                                      [(g/prop= :name "Trinity")]
-                                      (g/incoming :knows))))
+     (g/zip-> (neo-zip)
+              :humans
+              :human
+              (g/prop= :name "Trinity")
+              (g/incoming :knows)
+              :name
+              g/node))
     ;; -> ("Morpheus" "Thomas Anderson")
     
 For more examples of how to use Graph-Zip and Borneo, please refer to
