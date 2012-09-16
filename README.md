@@ -6,7 +6,7 @@ It is built atop [Graph-Zip](https://github.com/james-henderson/graph-zip) and [
 
 ## Lein dependency:
 
-    [neo-zip "0.2"]
+    [neo-zip "0.3"]
 
 ## Usage
 
